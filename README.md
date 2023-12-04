@@ -11,3 +11,7 @@ solving DSA Problems with C++ and c
         - Traversing
         - Merging
 
+
+## DAY 1
+- [x] Program to implement Singly linked list.
+
