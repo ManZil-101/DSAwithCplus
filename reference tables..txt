@@ -1,0 +1,167 @@
+CREATE TABLE SalesToCustomers (
+    SaleID INT NOT NULL,
+    CustomerID INT NOT NULL,
+    CONSTRAINT fk_sales_to_customers_sale_id FOREIGN KEY (SaleID) REFERENCES Sales(SaleID),
+    CONSTRAINT fk_sales_to_customers_customer_id FOREIGN KEY (CustomerID) REFERENCES Customers(CustomerID),
+    PRIMARY KEY (SaleID, CustomerID)
+);
+INSERT INTO SalesToCustomers (SaleID, CustomerID) VALUES 
+(1, 1),
+(2, 2),
+(3, 3),
+(4, 4),
+(5, 5),
+(6, 6);
+
+
+
+CREATE TABLE Customers (
+    CustomerID INT PRIMARY KEY AUTO_INCREMENT,
+    FirstName VARCHAR(255) NOT NULL,
+    LastName VARCHAR(255) NOT NULL,
+    Email VARCHAR(255),
+    PhoneNumber VARCHAR(25)
+);
+
+INSERT INTO Customers (FirstName, LastName, Email, PhoneNumber) VALUES 
+('Sudan', 'Subedi', NULL, '9864356754'),
+('Bindu', 'Chalise',NULL, '9876567654'),
+('Ishan', 'Bhandari', 'isan.fid@example.com', '9876532234'),
+('jenisha', 'Sharma', 'sharma.jenny@example.com', '9807065676'),
+('Binita', 'Khattri', 'benny.homa@example.com', '9870987890'),
+('Seema', 'Subedi', 'seema.4u@example.com', '9812321234');
+
+
+
+CREATE TABLE Sales (
+    SaleID INT PRIMARY KEY AUTO_INCREMENT,
+    ProductID INT NOT NULL,
+    EmployeeID INT NOT NULL,
+    QuantitySold INT DEFAULT 1,
+    SaleDate DATE NOT NULL,
+    TotalSaleAmount DECIMAL(10, 2) NOT NULL,
+    CONSTRAINT fk_sale_product_id FOREIGN KEY (ProductID) REFERENCES Products(ProductID),
+    CONSTRAINT fk_sale_employee_id FOREIGN KEY (EmployeeID) REFERENCES new_Employees(EmployeeID)
+);
+
+
+INSERT INTO Sales (ProductID, EmployeeID, QuantitySold, SaleDate, TotalSaleAmount) VALUES 
+(1, 1, 2, '2024-04-03', 1099.98),
+(2, 3, 4, '2024-04-05', 1199.98),
+(3, 5, 6, '2024-04-03', 1049.98),
+(2, 1, 8, '2024-04-05', 2399.98),
+(4, 2, 10, '2024-04-03', 1299.98),
+(9, 4, 3, '2024-04-08', 539.98),
+(8, 6, 6, '2024-04-04', 739.98),
+(6, 1, 9, '2024-04-06', 5199.98),
+(10, 5, 12, '2024-04-04', 7999.98),
+(13, 3, 15, '2024-04-07', 1299.98),
+(14, 6, 8, '2024-04-08', 1239.98),
+(19, 4, 9, '2024-04-07', 1545.98),
+(24, 2, 13, '2024-04-06', 8969.98);
+
+
+
+
+CREATE TABLE Products (
+    ProductID INT PRIMARY KEY AUTO_INCREMENT,
+    ProductName VARCHAR(255) NOT NULL,
+    Price DECIMAL(10, 2) NOT NULL,
+    QuantityInStock INT DEFAULT 0,
+    DepartmentID INT,
+    CONSTRAINT fk_product_department FOREIGN KEY (DepartmentID) REFERENCES Departments(DepartmentID)
+);
+
+INSERT INTO Products (ProductName, Price, QuantityInStock, DepartmentID) VALUES 
+('Smartphone', 599.99, 100, 1),
+('SmartWatch', 249.99, 400, 1),
+('Television', 499.99, 50, 1),
+('Air Conditionar', 779.99, 30, 1),
+('Jens', 199.99, 300, 2),
+('Shirts', 249.99, 400, 2),
+('Jackets', 409.99, 100, 2),
+('Shoes', 379.99, 70, 2),
+('Asian Paints', 99.99, 300, 3),
+('Marbals', 29.99, 400, 3),
+('Pipes', 40.99, 100, 3),
+('taps', 39.99, 70, 3),
+('Rice Cooker', 199.99, 300, 4),
+('Mixture', 249.99, 400, 4),
+('Fry Pan', 49.99, 100, 4),
+('Jugs', 9.99, 70, 4),
+('Toy cars', 8.99, 300, 5),
+('Ball', 24.99, 400, 5),
+('Dolls', 4.99, 100, 5),
+('Ducks', 9.99, 70, 5),
+('Cricket Bat', 89.99, 300, 6),
+('Football', 24.99, 400, 6),
+('Basketball', 14.99, 100, 6),
+('Jersey', 9.99, 70, 6);
+
+
+CREATE TABLE new_Employees (
+    EmployeeID INT PRIMARY KEY AUTO_INCREMENT,
+    FirstName VARCHAR(255) NOT NULL,
+    LastName VARCHAR(255) NOT NULL,
+    DepartmentID INT,
+    Email VARCHAR(255),
+    PhoneNumber VARCHAR(25),
+    HireDate DATE,
+    CONSTRAINT fk_department_id FOREIGN KEY (DepartmentID) REFERENCES Departments(DepartmentID)
+);
+
+INSERT INTO new_Employees (FirstName, LastName, DepartmentID, Email, PhoneNumber, HireDate) VALUES 
+('Rohan', 'Gurung', 1, 'rohan.gurung@example.com', '9834836482', '2023-01-10'),
+('Sabita', 'Basnet', 2, 'sabi.basnet@example.com', '9857442364', '2023-02-15'),
+('Ashish', 'Devkota', 3, 'ashish.dev@example.com', '9765342738', '2023-01-10'),
+('Deeya', 'Poudel', 4, 'deeya.poudel@example.com', '9876543576', '2023-02-15'),
+('Roshni', 'Sharma', 5, 'roshni.sharma@example.com', '9786854533', '2023-01-10'),
+('Manoj', 'Sharma', 6, 'manoj.sharma@example.com', '9764098743', '2023-02-15');
+
+
+
+CREATE TABLE Departments (
+    DepartmentID INT PRIMARY KEY AUTO_INCREMENT,
+    DepartmentName VARCHAR(255) NOT NULL,
+    ManagerID INT,
+    CONSTRAINT fk_manager_id FOREIGN KEY (ManagerID) REFERENCES Employees(EmployeeID)
+);
+
+INSERT INTO Departments (DepartmentName, ManagerID) VALUES 
+('Electronics', NULL),
+('Clothing', NULL),
+('Hardware', NULL),
+('Home Appliances', NULL),
+('toys', NULL),
+('Sporting Goods', NULL);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+SELECT SaleID, ProductID, EmployeeID, QuantitySold, SaleDate,TotalSaleAmount,
+    ROUND((TotalSaleAmount - (TotalSaleAmount * 0.1)) * (1 + 0.05), 2) AS NetSaleAmount
+FROM Sales;
+
+
+
+SELECT COUNT(*) AS TotalSalesTransactions, 
+SUM(TotalSaleAmount) AS TotalRevenue,
+MAX(TotalSaleAmount) AS HighestSale,
+AVG(TotalSaleAmount) AS AverageSaleAmount FROM Sales;
+
+
+
+
+
